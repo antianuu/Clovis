@@ -1,0 +1,79 @@
+/* === CLOVIS color profile (rugged hat + patch) ===
+   Layout stays exactly as before. This file only changes colors.
+*/
+
+/* Brand/accents pulled from your photos */
+:root{
+  --blue:          #2b7da5;      /* keep for links if you used it */
+  --green:         #2f8a64;      /* spare accent if needed */
+
+  /* Hat + patch tones */
+  --hat-green:     #3C6F5B;      /* washed green cap */
+  --hat-green-dk:  #2F5948;      /* deeper panel */
+  --patch-slate:   #2F3F3A;      /* patch field */
+  --patch-gold:    #D9C592;      /* patch lettering (headlines/buttons) */
+  --stitch-pink:   #d76b6b;      /* patch border pink */
+
+  /* Light sections (unchanged structure, just colors) */
+  --cream:         #F5F1E8;
+  --ink:           #1b1b19;
+  --muted-ink:     #66635c;
+
+  /* Muted on dark */
+  --muted-dark:    #B6C5BD;
+}
+
+/* === Map previous variables to new colors (don’t touch layout) === */
+:root{
+  /* Your old file used these tokens; we remap them here */
+  --bg:        var(--hat-green);     /* global background */
+  --surface-a: var(--cream);         /* light/cream sections */
+  --surface-b: var(--hat-green-dk);  /* dark alternating sections */
+  --muted:     var(--muted-dark);    /* muted text on dark */
+  --border:    #e0dbd1;              /* gentle cream divider */
+}
+
+/* === Minimal overrides to recolor components (no layout changes) === */
+
+/* Headline + key accents use patch gold */
+.display, h1.serif, h2.serif, h3.serif { color: var(--patch-gold); }
+
+/* Header seam like a stitch */
+.site-header { border-bottom: 2px solid var(--stitch-pink); background: rgba(47,63,58,.75); }
+.site-header nav a:hover { border-color: var(--stitch-pink); color: #fff; }
+.brand { color: var(--patch-gold); }
+
+/* Hero overlay uses hat tones so it’s not black */
+.scrim{
+  background:
+    radial-gradient(70% 60% at 50% 40%, rgba(60,111,91,0), rgba(47,63,58,.60)),
+    linear-gradient(180deg, rgba(60,111,91,0) 0%, rgba(47,63,58,.82) 100%);
+}
+
+/* Buttons match patch lettering with a subtle stitch outline */
+.button{
+  background: var(--patch-gold);
+  color: #2a2a26;
+  border: 2px solid var(--stitch-pink);
+}
+.button:hover{ background: #e2cf9f; border-color:#fff; }
+.button.ghost{ border-color: rgba(255,255,255,.25); color: var(--muted-dark); }
+.button.ghost:hover{ border-color: var(--stitch-pink); color:#fff; }
+
+/* Light vs dark section text colors (structure unchanged) */
+.surface-a{ color: var(--ink); }
+.surface-a p{ color: var(--muted-ink); }
+.surface-b{ color: #f3f5f2; }
+
+/* Gentle stitch accents on section edges (optional; keeps layout) */
+.surface-a,
+.surface-b { border-top: 2px solid var(--stitch-pink); }
+
+/* Gallery tiles get a thin stitch border so the pink appears subtly */
+.gallery .tile{ border: 2px solid var(--stitch-pink); }
+
+/* Footer lighter like a worn sweatband edge */
+.site-footer{
+  background:#eae5db; color:#2d2a24; border-top:2px solid var(--stitch-pink);
+}
+.site-footer .muted{ color:#6f6a61; }
