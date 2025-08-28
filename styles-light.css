@@ -1,8 +1,8 @@
 /* Clovis Landing — Blue/Green with Light + Dark Surfaces */
 :root {
   /* Brand accents */
-  --blue:  #2b7da5;   /* accent blue */
-  --green: #2f8a64;   /* accent green */
+  --blue:  #2b7da5;   /* logo blue */
+  --green: #2f8a64;   /* logo green */
   --gold:  #c9a86b;
 
   /* Light surfaces */
@@ -10,16 +10,17 @@
   --ink:        #0b1412;
   --muted-ink:  #5a6a62;
 
-  /* Updated darks — softer, tinted, not pure black */
-  --bg:        #102820;  /* deep forest-navy */
-  --surface-a: #fdfcf9;  /* light cream */
-  --surface-b: #18332a;  /* softer green section */
+  /* Backgrounds — visibly blue-green */
+  --bg:        #1e4136;  /* main background (lighter forest green) */
+  --surface-a: #fdfcf9;  /* cream/light sections */
+  --surface-b: #245046;  /* darker teal-green for alternating sections */
   --text-dark: #f3f5f2;
   --muted:     #a4b8b1;
   --border:    #cfd6d2;
 
   --radius: 14px;
 }
+
 
 
 *{box-sizing:border-box}
