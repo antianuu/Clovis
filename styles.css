@@ -55,6 +55,14 @@ body{
 }
 .hero-content{text-align:center; padding:64px 0 56px}
 .badge{width:140px; margin:0 auto 12px auto; display:block; opacity:.98}
+.patch-hero {
+  width: clamp(240px, 45vw, 420px); /* responsive sizing */
+  display: block;
+  margin: 0 auto 20px auto;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,.45));
+  border-radius: 12px; /* keeps patch edges smooth */
+}
+
 
 /* Buttons */
 .button{
@@ -126,3 +134,61 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 
 /* Accessibility */
 .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+
+/* ===== Fabric-style hero ===== */
+.hero.fabric {
+  /* Green canvas tone so it's clearly not black */
+  background: #3c6f5b; /* matches washed-hat green */
+  position: relative;
+}
+
+/* Subtle canvas threads + noise using only CSS (no images) */
+.hero.fabric::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  background:
+    /* cross threads */
+    repeating-linear-gradient( 90deg, rgba(0,0,0,.05) 0 1px, rgba(0,0,0,0) 1px 3px),
+    repeating-linear-gradient(  0deg, rgba(255,255,255,.03) 0 1px, rgba(0,0,0,0) 1px 3px),
+    /* mottled wear */
+    radial-gradient(1200px 600px at 10% 0%, rgba(255,255,255,.05), transparent 60%),
+    radial-gradient(900px 500px at 90% 20%, rgba(0,0,0,.10), transparent 60%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* Ease up the dark scrim so the color shows through */
+.hero.fabric .scrim{
+  background:
+    radial-gradient(70% 60% at 50% 40%, rgba(60,111,91,0), rgba(47,63,58,.45)),
+    linear-gradient(180deg, rgba(60,111,91,0) 0%, rgba(47,63,58,.68) 100%);
+}
+
+/* ===== Patch placement (a subtle stitched mount under the PNG) ===== */
+.patch-mount{
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: rgba(47,63,58,.55);              /* patch-slate tint */
+  border: 2px solid #d76b6b;                    /* pink stitch from the patch */
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35),                /* drop shadow */
+    inset 0 1px 0 rgba(255,255,255,.06);        /* highlight */
+}
+
+/* optional tiny dashed stitch illusion */
+.patch-mount { background-image:
+  linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,.08)),
+  repeating-linear-gradient(90deg, transparent 0 8px, rgba(255,255,255,.08) 8px 9px);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+/* the badge itself */
+.patch-hero{
+  width: clamp(240px, 45vw, 420px);
+  display: block;
+  margin: 0 auto;
+  border-radius: 12px; /* follows patch corners */
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,.45));
+}
