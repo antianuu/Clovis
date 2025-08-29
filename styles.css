@@ -192,3 +192,88 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   border-radius: 12px; /* follows patch corners */
   filter: drop-shadow(0 8px 20px rgba(0,0,0,.45));
 }
+/* ===== Clovis Hat Texture (hero background only) =====
+   Makes the hero look like worn canvas with bright & dull patches.
+   Tweak the variables to match your cap color.
+*/
+:root{
+  --hat-base:   #3c6f5b; /* main cap green */
+  --hat-deep:   #2f5948; /* darker rubbed areas */
+  --hat-light:  #6e9e88; /* sun-bleached highlights */
+  --hat-warm:   #3b5e52; /* warm midtone */
+}
+
+/* Apply this to your existing hero by adding class="hero fabric-worn" */
+.hero.fabric-worn{
+  position: relative;
+  background: var(--hat-base);
+  overflow: hidden;
+}
+
+/* Layer 1: broad color gradient (not flat!) */
+.hero.fabric-worn::before{
+  content:"";
+  position:absolute; inset:0; z-index:-3;
+  background:
+    radial-gradient(120% 80% at 20% 15%, var(--hat-light) 0%, transparent 55%),
+    radial-gradient(110% 70% at 80% 25%, var(--hat-warm) 0%, transparent 55%),
+    radial-gradient(140% 90% at 60% 85%, var(--hat-deep) 0%, transparent 60%),
+    linear-gradient(180deg, var(--hat-base), var(--hat-deep));
+  mix-blend-mode: normal;
+}
+
+/* Layer 2: faint fabric weave (threads) */
+.hero.fabric-worn::after{
+  content:"";
+  position:absolute; inset:0; z-index:-2;
+  background:
+    /* horizontal thread ribs */
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.045) 0 1px,
+      rgba(0,0,0,0) 1px 3px
+    ),
+    /* vertical thread ribs */
+    repeating-linear-gradient(
+      90deg,
+      rgba(0,0,0,.04) 0 1px,
+      rgba(255,255,255,0) 1px 3px
+    );
+  opacity:.45;
+  mix-blend-mode: overlay;
+  pointer-events:none;
+}
+
+/* Layer 3: irregular wear “blotches” + edge vignette */
+.hero.fabric-worn .hat-wear,
+.hero.fabric-worn .hat-vignette{ position:absolute; inset:0; pointer-events:none; z-index:-1; }
+
+.hero.fabric-worn .hat-wear{
+  background:
+    radial-gradient(400px 240px at 22% 28%, rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 70%),
+    radial-gradient(520px 300px at 72% 22%, rgba(255,255,255,.11) 0%, rgba(255,255,255,0) 70%),
+    radial-gradient(360px 200px at 78% 72%, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 70%),
+    radial-gradient(500px 260px at 28% 82%, rgba(0,0,0,.12) 0%, rgba(0,0,0,0) 70%);
+  mix-blend-mode: overlay;
+}
+
+/* Layer 4: subtle paper/fiber noise (tiny data-URI) */
+.hero.fabric-worn .hat-noise{
+  position:absolute; inset:0; z-index:-1; pointer-events:none; opacity:.18;
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'>\
+<filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0.35'/></feComponentTransfer></filter>\
+<rect width='120' height='120' filter='url(#n)'/>\
+</svg>");
+  background-size: 220px 220px;
+  mix-blend-mode: multiply;
+}
+
+/* Lighten the default dark scrim so color shows through */
+.hero.fabric-worn .scrim{
+  position:absolute; inset:0; z-index:-1;
+  background:
+    radial-gradient(70% 60% at 50% 40%, rgba(60,111,91,0), rgba(47,63,58,.38)),
+    linear-gradient(180deg, rgba(60,111,91,0) 0%, rgba(47,63,58,.55) 100%);
+}
+
