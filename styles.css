@@ -244,4 +244,31 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   padding: 0;
   box-shadow: none;
 }
+/* === Hat Rim Stitch Pattern for Section Backgrounds === */
+
+/* Base pattern: concentric rings like a stitched hat rim */
+.section.rimmed {
+  background-image:
+    repeating-radial-gradient(
+      circle at center,
+      transparent 0 18px,           /* spacing before stitch */
+      rgba(215,107,107,0.25) 18px 20px, /* stitch line (pink) */
+      transparent 20px 40px         /* gap until next stitch */
+    );
+  background-size: 200% 200%; /* make it big so stitches are wide apart */
+  background-position: center;
+  background-color: var(--surface-a); /* keep cream or green base underneath */
+}
+
+/* On dark sections, tone the stitches lighter for visibility */
+.surface-b.rimmed {
+  background-color: var(--surface-b);
+  background-image:
+    repeating-radial-gradient(
+      circle at center,
+      transparent 0 18px,
+      rgba(255,255,255,0.08) 18px 20px,
+      transparent 20px 40px
+    );
+}
 
