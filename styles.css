@@ -1,279 +1,230 @@
-/* Clovis Landing — Blue/Green with Light + Dark Surfaces */
-:root {
-  /* === Brand palette (adjust hex to your logo) === */
-  --blue: #2b7da5;
-  --green: #2f8a64;
-  --cream: #fdfcf9;     /* light background */
-  --ink: #0b1412;       /* dark text on light */
-  --muted-ink: #5a6a62; /* muted text on light */
-  --gold: #c9a86b;
+/* =========================================================
+   CLOVIS — Rugged Hat Theme
+   - Keeps your original layout
+   - Full hero background = worn hat canvas (no HTML changes)
+   - Patch gold for headings/buttons; pink stitch accents
+   ========================================================= */
 
-  /* === UI foundation === */
-  --bg: #0b1412;        /* deep navy-green (hero + darks) */
-  --surface-a: #fdfcf9; /* light cream section */
-  --surface-b: #12201c; /* dark green section */
-  --muted: #9eb1aa;     /* muted text on dark */
-  --border: #dcd9cf;
+/* ===== Palette (from your hat + patch) ===== */
+:root{
+  /* Patch lettering & stitch */
+  --patch-gold:  #D9C592;  /* headings, primary btn */
+  --stitch-pink: #d76b6b;  /* borders, hovers, seams */
+
+  /* Hat greens */
+  --hat-base:   #3c6f5b;   /* main cap green */
+  --hat-deep:   #2f5948;   /* darker rubbed areas */
+  --hat-light:  #6e9e88;   /* sun-bleached highlights */
+  --hat-warm:   #3b5e52;   /* warm midtone */
+
+  /* Light sections */
+  --cream:      #F5F1E8;
+  --ink:        #1b1b19;
+  --muted-ink:  #66635c;
+  --cream-border:#e0dbd1;
+
+  /* Text on dark */
+  --text-dark:  #f3f5f2;
+  --muted-dark: #B6C5BD;
+
+  /* Legacy tokens your HTML expects */
+  --bg:        var(--hat-base);
+  --surface-a: var(--cream);
+  --surface-b: #2F5948;       /* darker hat panel for alt sections */
+  --muted:     var(--muted-dark);
+  --border:    #223a34;
+
   --radius: 14px;
 }
 
+/* ===== Base ===== */
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
   background: var(--bg);
-  color: var(--cream);
+  color: var(--text-dark);
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   line-height:1.6;
 }
 
-/* Typography */
-.serif{font-family:"Cormorant Garamond", Georgia, serif; letter-spacing:.2px}
-.display{font-family:"Cormorant Garamond", Georgia, serif; font-weight:600; font-size:clamp(36px,7vw,72px); line-height:1.05; margin:0 0 8px 0}
-.lede{font-size:clamp(16px,2.4vw,20px); color:var(--muted); margin:.2rem 0 1rem}
-.note{color:var(--muted); font-size:14px}
-
-/* Layout */
 .container{max-width:1100px;margin:0 auto;padding:0 16px}
 .row{display:flex;align-items:center;gap:12px}
 .row.between{justify-content:space-between}
 
-/* Header */
-.site-header{position:sticky; top:0; z-index:20; border-bottom:1px solid var(--border); background:rgba(13,22,20,.65); backdrop-filter:blur(8px)}
-.site-header nav a{color:var(--muted); text-decoration:none; margin-left:16px; padding:18px 2px; display:inline-block; border-bottom:2px solid transparent}
-.site-header nav a:hover{color:var(--cream); border-color:var(--blue)}
-.brand{color:var(--cream); text-decoration:none; font-weight:700; letter-spacing:.6px; padding:14px 0}
+/* ===== Type ===== */
+.serif{font-family:"Cormorant Garamond", Georgia, serif; letter-spacing:.2px}
+.display{font-family:"Cormorant Garamond", Georgia, serif; font-weight:600; font-size:clamp(36px,7vw,72px); line-height:1.05; margin:0 0 8px; color:var(--patch-gold)}
+.lede{font-size:clamp(16px,2.4vw,20px); color:var(--muted-dark); margin:.2rem 0 1rem}
+.note{color:var(--muted-dark); font-size:14px}
 
-/* Hero */
-.hero{position:relative; min-height:82vh; display:grid; place-items:center; overflow:hidden}
-.hero-media{position:absolute; inset:0; z-index:-2}
-.bgvid{width:100%; height:100%; object-fit:cover; filter:saturate(.9) contrast(1.03) brightness(.85)}
-.scrim{
-  position:absolute; inset:0;
+/* ===== Header (subtle stitched seam) ===== */
+.site-header{
+  position:sticky; top:0; z-index:20;
+  background: rgba(47,63,58,.75);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  border-bottom: 2px solid var(--stitch-pink);
+}
+.brand{color:var(--patch-gold); text-decoration:none; font-weight:700; letter-spacing:.6px; padding:14px 0}
+.site-header nav a{
+  color:var(--muted-dark); text-decoration:none; margin-left:16px; padding:18px 2px; display:inline-block; border-bottom:2px solid transparent
+}
+.site-header nav a:hover{color:#fff; border-color:var(--stitch-pink)}
+
+/* ===== Hero — FULL worn-hat fabric background ===== */
+.hero{
+  position:relative;
+  min-height:82vh;
+  display:grid; place-items:center;
+  overflow:hidden;
+}
+
+/* Put the video furthest back so texture sits above it */
+.hero .hero-media{position:absolute; inset:0; z-index:-4}
+.bgvid{width:100%; height:100%; object-fit:cover; filter:saturate(.9) contrast(1.02) brightness(.9)}
+
+/* Worn color field (gradients) + blotches + vignette */
+.hero::before{
+  content:"";
+  position:absolute; inset:0; z-index:-3;
   background:
-    radial-gradient(70% 60% at 50% 40%, rgba(18,32,28,0), rgba(11,20,18,.72)),
-    linear-gradient(180deg, rgba(11,20,18,0) 0%, rgba(11,20,18,.85) 100%);
+    /* sun-bleached areas */
+    radial-gradient(120% 80% at 20% 15%, var(--hat-light) 0%, transparent 55%),
+    radial-gradient(110% 70% at 80% 25%, var(--hat-warm) 0%, transparent 55%),
+    /* darker rubbed zones */
+    radial-gradient(140% 90% at 60% 85%, var(--hat-deep) 0%, transparent 60%),
+    /* overall vertical tone */
+    linear-gradient(180deg, var(--hat-base), var(--hat-deep));
+  mix-blend-mode:normal;
 }
+
+/* Fabric weave + noise (subtle, sits above gradients, below scrim) */
+.hero::after{
+  content:"";
+  position:absolute; inset:0; z-index:-2;
+  background:
+    /* weave threads */
+    repeating-linear-gradient(  0deg, rgba(255,255,255,.045) 0 1px, rgba(0,0,0,0) 1px 3px),
+    repeating-linear-gradient( 90deg, rgba(0,0,0,.04) 0 1px, rgba(255,255,255,0) 1px 3px),
+    /* tiny fiber noise */
+    url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'>\
+<filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0.30'/></feComponentTransfer></filter>\
+<rect width='120' height='120' filter='url(#n)'/>\
+</svg>");
+  background-size: auto, auto, 220px 220px;
+  mix-blend-mode:overlay;
+  opacity:.32;
+  pointer-events:none;
+}
+
+/* Lightened scrim so the green shows through */
+.scrim{
+  position:absolute; inset:0; z-index:-1;
+  background:
+    radial-gradient(70% 60% at 50% 40%, rgba(60,111,91,0), rgba(47,63,58,.42)),
+    linear-gradient(180deg, rgba(60,111,91,0) 0%, rgba(47,63,58,.58) 100%);
+}
+
+/* Center content */
 .hero-content{text-align:center; padding:64px 0 56px}
-.badge{width:140px; margin:0 auto 12px auto; display:block; opacity:.98}
-.patch-hero {
-  width: clamp(240px, 45vw, 420px); /* responsive sizing */
-  display: block;
-  margin: 0 auto 20px auto;
-  filter: drop-shadow(0 8px 20px rgba(0,0,0,.45));
-  border-radius: 12px; /* keeps patch edges smooth */
-}
+.badge{width:140px; margin:0 auto 12px; display:block; filter: drop-shadow(0 4px 12px rgba(0,0,0,.35))}
+.patch-hero{width:clamp(240px,45vw,420px); display:block; margin:0 auto 20px; border-radius:12px; filter: drop-shadow(0 8px 20px rgba(0,0,0,.45))}
 
-
-/* Buttons */
-.button{
-  border:1px solid var(--blue);
-  background:var(--blue);
-  color:#fff;
+/* Optional “mount” plate behind patch to mimic a sewn patch holder */
+.patch-mount{
+  display:inline-block;
   padding:10px 14px;
-  border-radius:999px;
-  cursor:pointer;
-  font-weight:600;
+  border-radius:16px;
+  background: rgba(47,63,58,.55);
+  border: 2px solid var(--stitch-pink);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
 }
-.button:hover{background:var(--green); border-color:var(--green)}
-.button.ghost{background:transparent; border-color:var(--border); color:var(--muted)}
-.button.ghost:hover{color:var(--cream); border-color:var(--blue)}
 
-/* Sections */
-.section{padding:72px 0}
-.surface-a{
-  background:var(--surface-a);
-  color:var(--ink);
+/* ===== Buttons (patch gold + pink stitch) ===== */
+.button{
+  background: var(--patch-gold);
+  color:#2a2a26;
+  border:2px solid var(--stitch-pink);
+  padding:10px 16px; border-radius:999px; font-weight:700; cursor:pointer;
 }
-.surface-a h2, .surface-a h3{color:var(--ink)}
-.surface-a p{color:var(--muted-ink)}
+.button:hover{background:#e2cf9f; border-color:#fff}
+.button.ghost{background:transparent; color:var(--muted-dark); border:1px solid rgba(255,255,255,.25)}
+.button.ghost:hover{border-color:var(--stitch-pink); color:#fff}
+
+/* ===== Sections (same layout; alternating light/dark) ===== */
+.section{padding:72px 0}
+
+.surface-a{
+  background: var(--surface-a);
+  color: var(--ink);
+  border-top:2px solid var(--stitch-pink);
+  border-bottom:1px solid var(--cream-border);
+}
+.surface-a .lede,.surface-a .note{color:var(--muted-ink)}
+.surface-a .frame img{border-color:var(--cream-border); box-shadow:0 18px 60px rgba(0,0,0,.08)}
 
 .surface-b{
-  background:var(--surface-b);
-  color:var(--cream);
+  background: var(--surface-b);
+  color: var(--text-dark);
+  border-top:2px solid var(--stitch-pink);
+  border-bottom:1px solid rgba(0,0,0,.25);
 }
 
-/* Story Split */
+/* Split layout */
 .split{display:grid; grid-template-columns:1.1fr 0.9fr; gap:28px; align-items:center}
 @media(max-width:900px){.split{grid-template-columns:1fr}}
-.copy p{margin:.4rem 0 1rem}
-.frame img{width:100%; border-radius:var(--radius); border:1px solid var(--border); box-shadow:0 20px 80px rgba(0,0,0,.35)}
 
-/* Method Pillars */
+/* Framed image */
+.frame{margin:0}
+.frame img{width:100%; border-radius:var(--radius); border:1px solid rgba(0,0,0,.25); box-shadow:0 20px 80px rgba(0,0,0,.25)}
+
+/* Pillars */
 .pillars{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:20px}
-.pillars article{background:linear-gradient(180deg,#142521,#0d1815); border:1px solid var(--border); border-radius:var(--radius); padding:18px}
-.pillars h3{margin:.2rem 0 .4rem; font-family:"Cormorant Garamond", Georgia, serif}
-.pillars p{color:#d9e5e1}
+.pillars h3{margin:.2rem 0 .4rem; font-family:"Cormorant Garamond", Georgia, serif; color:var(--patch-gold)}
+.pillars p{margin:0}
+.surface-b .pillars article{
+  background: linear-gradient(180deg, #2F3F3A, #26332f);
+  border:1px solid rgba(255,255,255,.06); border-radius:var(--radius); padding:18px; color:#dfe8e3
+}
+.surface-a .pillars article{
+  background: linear-gradient(180deg, #ffffff, #f3f0e8);
+  border:1px solid var(--cream-border); border-radius:var(--radius); padding:18px; color:#2a3a34
+}
 @media(max-width:900px){.pillars{grid-template-columns:1fr}}
 
-/* Media Gallery */
+/* Gallery */
 .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:16px}
-.gallery .tile{display:block; border-radius:12px; overflow:hidden; border:1px solid var(--border); background:#0b0c0c}
+.gallery .tile{display:block; border-radius:12px; overflow:hidden; border:2px solid var(--stitch-pink); background:#0b0c0c}
 .gallery img{width:100%; height:260px; object-fit:cover; transition:transform .35s ease}
 .gallery .tile:hover img{transform:scale(1.03)}
 @media(max-width:900px){.gallery{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.gallery{grid-template-columns:1fr} .gallery img{height:220px}}
 
-/* Contact */
+/* Newsletter */
 .center{text-align:center}
 .slim{max-width:680px}
 .newsletter{display:flex; gap:8px; justify-content:center; margin-top:8px}
-.newsletter input{flex:1; min-width:200px; max-width:360px; padding:10px 12px; border-radius:999px; border:1px solid var(--border); background:#fff; color:var(--ink)}
-.newsletter button{background:linear-gradient(180deg,var(--blue),var(--green)); border:none; color:#fff}
-.tiny{font-size:12px}
-.muted{color:var(--muted)}
+.newsletter input{
+  flex:1; min-width:200px; max-width:360px; padding:10px 12px; border-radius:999px;
+  border:1px solid var(--cream-border); background:#fff; color:var(--ink)
+}
+.newsletter button{background:var(--patch-gold); color:#2a2a26; border:2px solid var(--stitch-pink); font-weight:700}
+.newsletter button:hover{background:#e2cf9f; border-color:#fff}
 
 /* Footer */
-.site-footer{padding:18px 0; border-top:1px solid var(--border); background:#fafaf8; color:var(--ink)}
-.site-footer .muted{color:var(--muted-ink)}
+.site-footer{
+  padding:18px 0;
+  background:#eae5db;
+  color:#2d2a24;
+  border-top:2px solid var(--stitch-pink);
+}
+.site-footer .muted{color:#6f6a61}
 
 /* Lightbox */
 dialog::backdrop{background:rgba(0,0,0,.6)}
 #lightbox{border:none; padding:0; background:transparent}
-#lightbox img{max-width:min(92vw,1100px); max-height:86vh; border-radius:12px; border:1px solid var(--border)}
-#closeBox{position:fixed; top:16px; right:16px; width:40px; height:40px; border-radius:999px; border:1px solid var(--border); background:#0f1111; color:var(--cream); font-size:20px; cursor:pointer}
+#lightbox img{max-width:min(92vw,1100px); max-height:86vh; border-radius:12px; border:1px solid rgba(0,0,0,.25)}
+#closeBox{position:fixed; top:16px; right:16px; width:40px; height:40px; border-radius:999px; border:1px solid rgba(0,0,0,.25); background:#0f1111; color:#f3f5f2; font-size:20px; cursor:pointer}
 
-/* Accessibility */
+/* A11y */
 .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
-
-/* ===== Fabric-style hero ===== */
-.hero.fabric {
-  /* Green canvas tone so it's clearly not black */
-  background: #3c6f5b; /* matches washed-hat green */
-  position: relative;
-}
-
-/* Subtle canvas threads + noise using only CSS (no images) */
-.hero.fabric::before {
-  content: "";
-  position: absolute; inset: 0; z-index: -1;
-  background:
-    /* cross threads */
-    repeating-linear-gradient( 90deg, rgba(0,0,0,.05) 0 1px, rgba(0,0,0,0) 1px 3px),
-    repeating-linear-gradient(  0deg, rgba(255,255,255,.03) 0 1px, rgba(0,0,0,0) 1px 3px),
-    /* mottled wear */
-    radial-gradient(1200px 600px at 10% 0%, rgba(255,255,255,.05), transparent 60%),
-    radial-gradient(900px 500px at 90% 20%, rgba(0,0,0,.10), transparent 60%);
-  mix-blend-mode: multiply;
-  pointer-events: none;
-}
-
-/* Ease up the dark scrim so the color shows through */
-.hero.fabric .scrim{
-  background:
-    radial-gradient(70% 60% at 50% 40%, rgba(60,111,91,0), rgba(47,63,58,.45)),
-    linear-gradient(180deg, rgba(60,111,91,0) 0%, rgba(47,63,58,.68) 100%);
-}
-
-/* ===== Patch placement (a subtle stitched mount under the PNG) ===== */
-.patch-mount{
-  display: inline-block;
-  padding: 10px 14px;
-  border-radius: 16px;
-  background: rgba(47,63,58,.55);              /* patch-slate tint */
-  border: 2px solid #d76b6b;                    /* pink stitch from the patch */
-  box-shadow:
-    0 10px 30px rgba(0,0,0,.35),                /* drop shadow */
-    inset 0 1px 0 rgba(255,255,255,.06);        /* highlight */
-}
-
-/* optional tiny dashed stitch illusion */
-.patch-mount { background-image:
-  linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,.08)),
-  repeating-linear-gradient(90deg, transparent 0 8px, rgba(255,255,255,.08) 8px 9px);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-}
-
-/* the badge itself */
-.patch-hero{
-  width: clamp(240px, 45vw, 420px);
-  display: block;
-  margin: 0 auto;
-  border-radius: 12px; /* follows patch corners */
-  filter: drop-shadow(0 8px 20px rgba(0,0,0,.45));
-}
-/* ===== Clovis Hat Texture (hero background only) =====
-   Makes the hero look like worn canvas with bright & dull patches.
-   Tweak the variables to match your cap color.
-*/
-:root{
-  --hat-base:   #3c6f5b; /* main cap green */
-  --hat-deep:   #2f5948; /* darker rubbed areas */
-  --hat-light:  #6e9e88; /* sun-bleached highlights */
-  --hat-warm:   #3b5e52; /* warm midtone */
-}
-
-/* Apply this to your existing hero by adding class="hero fabric-worn" */
-.hero.fabric-worn{
-  position: relative;
-  background: var(--hat-base);
-  overflow: hidden;
-}
-
-/* Layer 1: broad color gradient (not flat!) */
-.hero.fabric-worn::before{
-  content:"";
-  position:absolute; inset:0; z-index:-3;
-  background:
-    radial-gradient(120% 80% at 20% 15%, var(--hat-light) 0%, transparent 55%),
-    radial-gradient(110% 70% at 80% 25%, var(--hat-warm) 0%, transparent 55%),
-    radial-gradient(140% 90% at 60% 85%, var(--hat-deep) 0%, transparent 60%),
-    linear-gradient(180deg, var(--hat-base), var(--hat-deep));
-  mix-blend-mode: normal;
-}
-
-/* Layer 2: faint fabric weave (threads) */
-.hero.fabric-worn::after{
-  content:"";
-  position:absolute; inset:0; z-index:-2;
-  background:
-    /* horizontal thread ribs */
-    repeating-linear-gradient(
-      0deg,
-      rgba(255,255,255,.045) 0 1px,
-      rgba(0,0,0,0) 1px 3px
-    ),
-    /* vertical thread ribs */
-    repeating-linear-gradient(
-      90deg,
-      rgba(0,0,0,.04) 0 1px,
-      rgba(255,255,255,0) 1px 3px
-    );
-  opacity:.45;
-  mix-blend-mode: overlay;
-  pointer-events:none;
-}
-
-/* Layer 3: irregular wear “blotches” + edge vignette */
-.hero.fabric-worn .hat-wear,
-.hero.fabric-worn .hat-vignette{ position:absolute; inset:0; pointer-events:none; z-index:-1; }
-
-.hero.fabric-worn .hat-wear{
-  background:
-    radial-gradient(400px 240px at 22% 28%, rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 70%),
-    radial-gradient(520px 300px at 72% 22%, rgba(255,255,255,.11) 0%, rgba(255,255,255,0) 70%),
-    radial-gradient(360px 200px at 78% 72%, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 70%),
-    radial-gradient(500px 260px at 28% 82%, rgba(0,0,0,.12) 0%, rgba(0,0,0,0) 70%);
-  mix-blend-mode: overlay;
-}
-
-/* Layer 4: subtle paper/fiber noise (tiny data-URI) */
-.hero.fabric-worn .hat-noise{
-  position:absolute; inset:0; z-index:-1; pointer-events:none; opacity:.18;
-  background-image: url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'>\
-<filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0.35'/></feComponentTransfer></filter>\
-<rect width='120' height='120' filter='url(#n)'/>\
-</svg>");
-  background-size: 220px 220px;
-  mix-blend-mode: multiply;
-}
-
-/* Lighten the default dark scrim so color shows through */
-.hero.fabric-worn .scrim{
-  position:absolute; inset:0; z-index:-1;
-  background:
-    radial-gradient(70% 60% at 50% 40%, rgba(60,111,91,0), rgba(47,63,58,.38)),
-    linear-gradient(180deg, rgba(60,111,91,0) 0%, rgba(47,63,58,.55) 100%);
-}
-
