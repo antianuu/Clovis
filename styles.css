@@ -310,4 +310,57 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   --rim-line: rgba(0,0,0,.18);        /* darker rings on cream */
   --rim-glow: rgba(0,0,0,.06);
 }
+/* === Lower half-circle stitched rim for green sections only === */
+.surface-b.rim-lower {
+  position: relative;
+  overflow: hidden;
+}
+
+.surface-b.rim-lower::before {
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:100%;              /* anchor circle above the section */
+  width:140vw;
+  height:140vw;
+  transform: translateX(-50%);
+  pointer-events:none;
+  z-index:0;
+
+  background:
+    /* stitch rings */
+    repeating-radial-gradient(
+      circle at 50% 0%,                /* center at top-middle to show bottom half */
+      rgba(255,255,255,.12) 0 2px,     /* thin light stitch line */
+      transparent 2px 22px             /* gap before next line */
+    ),
+    /* faint highlight around rim edge */
+    radial-gradient(
+      90% 60% at 50% 0%,
+      rgba(255,255,255,.07) 0%,
+      transparent 65%
+    );
+
+  /* Only keep the bottom half of the circle visible */
+  -webkit-mask: linear-gradient(to top, #000 0 50%, transparent 50%);
+          mask: linear-gradient(to top, #000 0 50%, transparent 50%);
+
+  mix-blend-mode: overlay;
+}
+
+/* Worn patches across the rim */
+.surface-b.rim-lower::after {
+  content:"";
+  position:absolute; inset:0;
+  pointer-events:none; z-index:0;
+  background:
+    radial-gradient(420px 240px at 25% 95%,   rgba(255,255,255,.10) 0%, transparent 70%),
+    radial-gradient(520px 300px at 75% 92%,   rgba(255,255,255,.07) 0%, transparent 70%),
+    radial-gradient(360px 220px at 80% 35%,   rgba(0,0,0,.12) 0%,   transparent 70%),
+    radial-gradient(500px 280px at 20% 20%,   rgba(0,0,0,.10) 0%,   transparent 70%);
+  mix-blend-mode: overlay;
+
+  -webkit-mask: linear-gradient(to top, #000 0 50%, transparent 50%);
+          mask: linear-gradient(to top, #000 0 50%, transparent 50%);
+}
 
