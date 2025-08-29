@@ -363,4 +363,62 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   -webkit-mask: linear-gradient(to top, #000 0 50%, transparent 50%);
           mask: linear-gradient(to top, #000 0 50%, transparent 50%);
 }
+/* === Rounded-square stitched LOWER rim — green sections only === */
+/* Tweak these two knobs to resize/shift the rim */
+:root {
+  --rim-size: 120vw;   /* overall size of the rounded square */
+  --rim-rise: 8vw;     /* how far the rim overlaps into the section */
+}
+
+.surface-b.rim-squared {
+  position: relative;
+  overflow: hidden;
+}
+
+/* The stitched rounded-square outline (bottom half only) */
+.surface-b.rim-squared::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - var(--rim-rise)); /* pull the rim down a bit into the section */
+  width: var(--rim-size);
+  height: var(--rim-size);
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0;
+
+  /* Inline SVG draws a rounded square with dashed “stitches” */
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000'>\
+  <rect x='28' y='28' width='944' height='944' rx='220' ry='220'\
+        fill='none' stroke='white' stroke-opacity='0.17' stroke-width='4'\
+        stroke-linecap='round' stroke-dasharray='7 18'/>\
+</svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  /* Only show the BOTTOM half */
+  -webkit-mask: linear-gradient(to top, #000 0 50%, transparent 50%);
+          mask: linear-gradient(to top, #000 0 50%, transparent 50%);
+
+  /* Blend with the green so it looks stitched into fabric */
+  mix-blend-mode: overlay;
+}
+
+/* Worn/scuffed highlights on the rim area (also bottom half only) */
+.surface-b.rim-squared::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(420px 240px at 25% 95%,  rgba(255,255,255,.12) 0%, transparent 70%),
+    radial-gradient(520px 300px at 75% 92%,  rgba(255,255,255,.08) 0%, transparent 70%),
+    radial-gradient(360px 220px at 80% 35%,  rgba(0,0,0,.12)   0%, transparent 70%),
+    radial-gradient(500px 280px at 20% 20%,  rgba(0,0,0,.10)   0%, transparent 70%);
+  mix-blend-mode: overlay;
+
+  -webkit-mask: linear-gradient(to top, #000 0 50%, transparent 50%);
+          mask: linear-gradient(to top, #000 0 50%, transparent 50%);
+}
 
