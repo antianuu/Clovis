@@ -244,31 +244,70 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   padding: 0;
   box-shadow: none;
 }
-/* === Hat Rim Stitch Pattern for Section Backgrounds === */
+/* === Half-circle stitched rim overlay (worn look) === */
+/* Works on both dark (surface-b) and light (surface-a) sections */
 
-/* Base pattern: concentric rings like a stitched hat rim */
-.section.rimmed {
-  background-image:
+.rim-half { position: relative; overflow: hidden; }
+
+/* Top half-circle made of subtle stitch rings */
+.rim-half::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:-30vw;                 /* how far up the circle is anchored */
+  width:140vw;               /* make it huge so rings are wide */
+  height:140vw;
+  transform: translateX(-50%);
+  pointer-events:none;
+  z-index:0;
+
+  /* Rings + soft glow */
+  background:
+    /* stitch rings */
     repeating-radial-gradient(
-      circle at center,
-      transparent 0 18px,           /* spacing before stitch */
-      rgba(215,107,107,0.25) 18px 20px, /* stitch line (pink) */
-      transparent 20px 40px         /* gap until next stitch */
+      circle at 50% 100%,     /* center at bottom-middle so we see a half circle */
+      var(--rim-line, rgba(255,255,255,.16)) 0 2px, /* ring thickness */
+      transparent 2px 22px    /* ring spacing */
+    ),
+    /* gentle highlight near the “rim” */
+    radial-gradient(
+      90% 60% at 50% 100%,
+      var(--rim-glow, rgba(255,255,255,.08)) 0%,
+      transparent 65%
     );
-  background-size: 200% 200%; /* make it big so stitches are wide apart */
-  background-position: center;
-  background-color: var(--surface-a); /* keep cream or green base underneath */
+
+  /* Only show TOP half of the circle */
+  -webkit-mask: linear-gradient(to bottom, #000 0 50%, transparent 50%);
+          mask: linear-gradient(to bottom, #000 0 50%, transparent 50%);
+
+  /* Blend so it picks up the section color underneath */
+  mix-blend-mode: overlay;
 }
 
-/* On dark sections, tone the stitches lighter for visibility */
-.surface-b.rimmed {
-  background-color: var(--surface-b);
-  background-image:
-    repeating-radial-gradient(
-      circle at center,
-      transparent 0 18px,
-      rgba(255,255,255,0.08) 18px 20px,
-      transparent 20px 40px
-    );
+/* Worn / scuffed patches over the half circle */
+.rim-half::after{
+  content:"";
+  position:absolute; inset:0;
+  pointer-events:none; z-index:0;
+  background:
+    radial-gradient(420px 240px at 25% 5%,   rgba(255,255,255,.10) 0%, transparent 70%),
+    radial-gradient(520px 300px at 75% 8%,   rgba(255,255,255,.07) 0%, transparent 70%),
+    radial-gradient(360px 220px at 80% 65%,  rgba(0,0,0,.12) 0%,   transparent 70%),
+    radial-gradient(500px 280px at 20% 80%,  rgba(0,0,0,.10) 0%,   transparent 70%);
+  mix-blend-mode: overlay;
+
+  /* Only affect the top half area as well */
+  -webkit-mask: linear-gradient(to bottom, #000 0 50%, transparent 50%);
+          mask: linear-gradient(to bottom, #000 0 50%, transparent 50%);
+}
+
+/* Tune colors automatically per surface */
+.surface-b.rim-half{
+  --rim-line: rgba(255,255,255,.16);  /* light rings on dark green */
+  --rim-glow: rgba(255,255,255,.08);
+}
+.surface-a.rim-half{
+  --rim-line: rgba(0,0,0,.18);        /* darker rings on cream */
+  --rim-glow: rgba(0,0,0,.06);
 }
 
