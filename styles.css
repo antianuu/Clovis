@@ -228,3 +228,20 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
 
 /* A11y */
 .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+/* === Patch hero clean version === */
+.patch-hero {
+  width: clamp(240px, 45vw, 420px);
+  display: block;
+  margin: 0 auto 20px;
+  border-radius: 12px; /* keeps patch edges smooth */
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,.45));
+}
+
+/* remove mount background + border */
+.patch-mount {
+  background: none;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
+
